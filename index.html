@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flappy Evolution Pro v3</title>
-    <link rel="stylesheet" href="style.css?v=3" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Flappy Evolution Pro v4</title>
+    <link rel="stylesheet" href="style.css?v=4" />
   </head>
   <body>
     <div class="game-shell">
@@ -13,6 +16,16 @@
         <button id="startButton" class="start-button" type="button">Spiel starten</button>
       </div>
     </div>
-    <script type="module" src="src/main.js?v=3"></script>
+    <script>
+      window.__APP_VERSION__ = 'v4';
+      try {
+        localStorage.removeItem('flappy-evolution-state');
+        localStorage.removeItem('flappy-evolution-state-v3');
+      } catch {}
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+      }
+    </script>
+    <script type="module" src="src/main.js?v=4"></script>
   </body>
 </html>
