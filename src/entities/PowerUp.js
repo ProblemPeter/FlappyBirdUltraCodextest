@@ -17,15 +17,17 @@ export class PowerUp extends Entity {
       slowmo: '#a0c4ff',
       doubleJump: '#ffafcc',
       multiplier: '#caffbf',
+      magnet: '#ffd6a5',
+      turbo: '#ff8fab',
     };
     ctx.fillStyle = colors[this.type] || '#fff';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#102';
-    ctx.font = 'bold 12px sans-serif';
+    ctx.font = 'bold 10px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('P', this.x, this.y + 4);
+    ctx.fillText(this.type[0].toUpperCase(), this.x, this.y + 3);
   }
 
   getCircle() {

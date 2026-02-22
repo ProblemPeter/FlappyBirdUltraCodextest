@@ -7,9 +7,9 @@ export class PauseScene extends Scene {
   }
 
   update() {
-    if (this.game.input.consumePause() || this.game.input.consumeJump()) {
-      this.game.currentScene = this.returnScene;
-    }
+    if (this.game.input.consumePause() || this.game.input.consumeJump()) this.game.currentScene = this.returnScene;
+    const swipe = this.game.input.consumeSwipe();
+    if (swipe.right) this.game.setScene('shop', 'playing');
   }
 
   render(ctx) {
@@ -22,5 +22,6 @@ export class PauseScene extends Scene {
     ctx.fillText('Pause', this.game.width / 2, this.game.height * 0.45);
     ctx.font = '24px sans-serif';
     ctx.fillText('P oder SPACE zum Fortsetzen', this.game.width / 2, this.game.height * 0.55);
+    ctx.fillText('Swipe rechts für Shop', this.game.width / 2, this.game.height * 0.62);
   }
 }

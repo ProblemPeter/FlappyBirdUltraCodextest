@@ -4,6 +4,10 @@ export class InputManager {
     this.keys = new Set();
     this.jumpQueued = false;
     this.pauseQueued = false;
+    this.holdActive = false;
+    this.swipeLeft = false;
+    this.swipeRight = false;
+    this.touchStart = null;
     this.handlers = [];
   }
 
@@ -12,36 +16,66 @@ export class InputManager {
       this.keys.add(event.code);
       if (['Space', 'ArrowUp', 'KeyW'].includes(event.code)) this.jumpQueued = true;
       if (event.code === 'KeyP' || event.code === 'Escape') this.pauseQueued = true;
+      if (event.code === 'KeyB') this.swipeRight = true;
     };
-
     const onKeyUp = (event) => this.keys.delete(event.code);
-    const onTouch = () => {
+
+    const onPointerDown = (event) => {
       this.jumpQueued = true;
+      this.holdActive = true;
+      this.touchStart = { x: event.clientX, y: event.clientY };
+    };
+    const onPointerMove = (event) => {
+      if (!this.touchStart) return;
+      const dx = event.clientX - this.touchStart.x;
+      if (Math.abs(dx) > 65) {
+        if (dx > 0) this.swipeRight = true;
+        else this.swipeLeft = true;
+        this.touchStart = { x: event.clientX, y: event.clientY };
+      }
+    };
+    const onPointerUp = () => {
+      this.holdActive = false;
+      this.touchStart = null;
     };
 
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
-    this.canvas.addEventListener('pointerdown', onTouch);
+    this.canvas.addEventListener('pointerdown', onPointerDown);
+    this.canvas.addEventListener('pointermove', onPointerMove);
+    this.canvas.addEventListener('pointerup', onPointerUp);
+    this.canvas.addEventListener('pointercancel', onPointerUp);
 
-    this.handlers.push(['keydown', onKeyDown], ['keyup', onKeyUp], ['pointerdown', onTouch]);
+    this.handlers.push(
+      ['keydown', onKeyDown, window],
+      ['keyup', onKeyUp, window],
+      ['pointerdown', onPointerDown, this.canvas],
+      ['pointermove', onPointerMove, this.canvas],
+      ['pointerup', onPointerUp, this.canvas],
+      ['pointercancel', onPointerUp, this.canvas],
+    );
   }
 
   consumeJump() {
-    const value = this.jumpQueued;
+    const v = this.jumpQueued;
     this.jumpQueued = false;
-    return value;
+    return v;
   }
 
   consumePause() {
-    const value = this.pauseQueued;
+    const v = this.pauseQueued;
     this.pauseQueued = false;
-    return value;
+    return v;
+  }
+
+  consumeSwipe() {
+    const payload = { left: this.swipeLeft, right: this.swipeRight };
+    this.swipeLeft = false;
+    this.swipeRight = false;
+    return payload;
   }
 
   dispose() {
-    for (const [name, handler] of this.handlers) {
-      const target = name === 'pointerdown' ? this.canvas : window;
-      target.removeEventListener(name, handler);
-    }
+    for (const [name, handler, target] of this.handlers) target.removeEventListener(name, handler);
   }
 }

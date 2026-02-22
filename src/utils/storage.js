@@ -2,9 +2,20 @@ const KEY = 'flappy-evolution-state';
 
 const defaults = {
   highScore: 0,
+  coins: 0,
+  coupons: 0,
   unlockedSkins: ['classic'],
   selectedSkin: 'classic',
-  settings: { sound: true, difficulty: 'normal', graphics: 'high' },
+  unlockedBackgrounds: ['sky'],
+  selectedBackground: 'sky',
+  settings: {
+    sfx: true,
+    music: true,
+    masterVolume: 0.65,
+    difficulty: 'normal',
+    graphics: 'high',
+    touchScheme: 'tap-hold-swipe',
+  },
   achievements: {},
 };
 

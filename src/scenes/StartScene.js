@@ -3,6 +3,8 @@ import { Scene } from '../core/Scene.js';
 export class StartScene extends Scene {
   update(dt) {
     this.game.backgroundTime += dt;
+    const swipe = this.game.input.consumeSwipe();
+    if (swipe.right) this.game.setScene('shop', 'start');
     if (this.game.input.consumeJump()) this.game.setScene('playing');
   }
 
@@ -14,10 +16,10 @@ export class StartScene extends Scene {
     ctx.fillStyle = '#fff';
     ctx.textAlign = 'center';
     ctx.font = 'bold 68px sans-serif';
-    ctx.fillText('Flappy Evolution', this.game.width / 2, this.game.height * 0.36);
+    ctx.fillText('Flappy Evolution Pro', this.game.width / 2, this.game.height * 0.34);
     ctx.font = '24px sans-serif';
-    ctx.fillText('Drücke SPACE / Tippe zum Starten', this.game.width / 2, this.game.height * 0.54);
-    ctx.font = '18px sans-serif';
-    ctx.fillText('P = Pause · O = Einstellungen · M = Skin wechseln', this.game.width / 2, this.game.height * 0.62);
+    ctx.fillText('Tippen/SPACE zum Starten', this.game.width / 2, this.game.height * 0.52);
+    ctx.fillText('Swipe rechts / B für Shop', this.game.width / 2, this.game.height * 0.58);
+    ctx.fillText('P Pause · O SFX · I Musik · L Schwierigkeit · G Grafik', this.game.width / 2, this.game.height * 0.64);
   }
 }

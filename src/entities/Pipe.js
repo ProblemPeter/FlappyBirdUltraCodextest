@@ -7,17 +7,19 @@ export class Pipe extends Entity {
     this.gapY = gapY;
     this.gapSize = gapSize;
     this.type = type;
+    this.challenge = type === 'challenge';
     this.scored = false;
     this.offset = Math.random() * 5;
   }
 
   update(dt, speed, playfieldHeight) {
-    this.x -= speed * dt * (this.type === 'fast' ? 1.25 : 1);
-    if (this.type === 'moving') {
+    const speedFactor = this.type === 'fast' ? 1.3 : this.type === 'challenge' ? 1.15 : 1;
+    this.x -= speed * dt * speedFactor;
+    if (this.type === 'moving' || this.type === 'challenge') {
       this.gapY += Math.sin(performance.now() / 400 + this.offset) * 40 * dt;
       this.gapY = Math.max(120, Math.min(playfieldHeight - 120, this.gapY));
     }
-    if (this.type === 'rotating') this.offset += dt * 2;
+    if (this.type === 'rotating' || this.type === 'challenge') this.offset += dt * 2;
   }
 
   getRects(playfieldHeight) {
@@ -31,18 +33,18 @@ export class Pipe extends Entity {
 
   render(ctx, playfieldHeight) {
     const rects = this.getRects(playfieldHeight);
-    ctx.fillStyle = '#2a9d8f';
+    ctx.fillStyle = this.challenge ? '#f4a261' : '#2a9d8f';
     for (const rect of rects) {
       ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
-      ctx.fillStyle = '#1f7d72';
+      ctx.fillStyle = this.challenge ? '#e76f51' : '#1f7d72';
       ctx.fillRect(rect.x - 5, rect.y + (rect.y === 0 ? rect.height - 24 : 0), rect.width + 10, 24);
-      ctx.fillStyle = '#2a9d8f';
+      ctx.fillStyle = this.challenge ? '#f4a261' : '#2a9d8f';
     }
-    if (this.type === 'rotating') {
+    if (this.type === 'rotating' || this.type === 'challenge') {
       ctx.save();
       ctx.translate(this.x + this.width / 2, this.gapY);
       ctx.rotate(this.offset);
-      ctx.fillStyle = '#e76f51';
+      ctx.fillStyle = '#e63946';
       ctx.fillRect(-8, -42, 16, 84);
       ctx.restore();
     }
