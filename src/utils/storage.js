@@ -1,4 +1,4 @@
-const KEY = 'flappy-evolution-state';
+const KEY = 'flappy-evolution-state-v3';
 
 const defaults = {
   highScore: 0,

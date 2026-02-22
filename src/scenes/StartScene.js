@@ -18,6 +18,9 @@ export class StartScene extends Scene {
     ctx.font = 'bold 68px sans-serif';
     ctx.fillText('Flappy Evolution Pro', this.game.width / 2, this.game.height * 0.34);
     ctx.font = '24px sans-serif';
+    ctx.fillStyle = '#80ffdb';
+    ctx.fillText('Version v3 (neu)', this.game.width / 2, this.game.height * 0.46);
+    ctx.fillStyle = '#fff';
     ctx.fillText('Tippen/SPACE zum Starten', this.game.width / 2, this.game.height * 0.52);
     ctx.fillText('Swipe rechts / B für Shop', this.game.width / 2, this.game.height * 0.58);
     ctx.fillText('P Pause · O SFX · I Musik · L Schwierigkeit · G Grafik', this.game.width / 2, this.game.height * 0.64);
