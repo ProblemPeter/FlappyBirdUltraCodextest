@@ -16,6 +16,9 @@ export class GameOverScene extends Scene {
 
   update() {
     this.game.backgroundTime += 0.01;
+    for (const action of this.game.input.consumeActions()) {
+      if (action === 'openShop') this.game.setScene('shop', 'start');
+    }
     const swipe = this.game.input.consumeSwipe();
     if (swipe.right) this.game.setScene('shop', 'start');
     if (this.game.input.consumeJump()) this.game.setScene('playing');

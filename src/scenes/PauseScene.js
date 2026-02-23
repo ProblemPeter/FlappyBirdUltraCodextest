@@ -7,6 +7,10 @@ export class PauseScene extends Scene {
   }
 
   update() {
+    for (const action of this.game.input.consumeActions()) {
+      if (action === 'resume') this.game.currentScene = this.returnScene;
+      if (action === 'openShop') this.game.setScene('shop', 'playing');
+    }
     if (this.game.input.consumePause() || this.game.input.consumeJump()) this.game.currentScene = this.returnScene;
     const swipe = this.game.input.consumeSwipe();
     if (swipe.right) this.game.setScene('shop', 'playing');

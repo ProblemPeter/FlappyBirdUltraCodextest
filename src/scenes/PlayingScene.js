@@ -123,6 +123,10 @@ export class PlayingScene extends Scene {
   }
 
   update(dt) {
+    for (const action of this.game.input.consumeActions()) {
+      if (action === 'pause') this.game.setScene('pause', this);
+      if (action === 'openShop') this.game.setScene('shop', 'playing');
+    }
     if (this.game.input.consumePause()) this.game.setScene('pause', this);
     if (this.game.input.consumeJump()) this.onJump();
 

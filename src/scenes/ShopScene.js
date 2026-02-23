@@ -10,10 +10,24 @@ export class ShopScene extends Scene {
   }
 
   update() {
+    for (const action of this.game.input.consumeActions()) {
+      if (action === 'shopPrev') this.changeIndex(-1);
+      if (action === 'shopNext') this.changeIndex(1);
+      if (action === 'shopBuy') this.buyOrSelect();
+      if (action === 'resume') this.game.setScene(this.returnScene);
+    }
     const swipe = this.game.input.consumeSwipe();
-    if (swipe.left || swipe.right) this.category = this.category === 'skins' ? 'backgrounds' : 'skins';
+    if (swipe.left || swipe.right) {
+      this.category = this.category === 'skins' ? 'backgrounds' : 'skins';
+      this.index = 0;
+    }
     if (this.game.input.consumePause()) this.game.setScene(this.returnScene);
     if (this.game.input.consumeJump()) this.buyOrSelect();
+  }
+
+  changeIndex(step) {
+    const list = SHOP_CATEGORIES[this.category];
+    this.index = (this.index + step + list.length) % list.length;
   }
 
   buyOrSelect() {
@@ -50,7 +64,7 @@ export class ShopScene extends Scene {
     ctx.font = '28px sans-serif';
     ctx.fillText(`Preis: ${item.cost} Coins`, this.game.width / 2, 400);
     ctx.font = '20px sans-serif';
-    ctx.fillText('Tippen = Kaufen/Auswählen · P = Zurück', this.game.width / 2, 520);
+    ctx.fillText('Tippen = Kaufen/Auswählen · ◀ ▶ = Items · Weiter = Zurück', this.game.width / 2, 520);
 
     const unlocked = this.category === 'skins' ? this.game.persistent.unlockedSkins : this.game.persistent.unlockedBackgrounds;
     ctx.fillStyle = unlocked.includes(item.id) ? '#80ffdb' : '#ffd166';

@@ -9,6 +9,7 @@ export class InputManager {
     this.swipeRight = false;
     this.touchStart = null;
     this.handlers = [];
+    this.actionQueue = [];
   }
 
   init() {
@@ -73,6 +74,16 @@ export class InputManager {
     this.swipeLeft = false;
     this.swipeRight = false;
     return payload;
+  }
+
+  queueAction(action) {
+    this.actionQueue.push(action);
+  }
+
+  consumeActions() {
+    const actions = [...this.actionQueue];
+    this.actionQueue.length = 0;
+    return actions;
   }
 
   dispose() {

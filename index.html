@@ -6,26 +6,49 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Flappy Evolution Pro v4</title>
-    <link rel="stylesheet" href="style.css?v=4" />
+    <title>Flappy Evolution Pro v5</title>
+    <link rel="stylesheet" href="style.css?v=5" />
   </head>
   <body>
     <div class="game-shell">
       <canvas id="gameCanvas" aria-label="Flappy Evolution Spielcanvas"></canvas>
       <div class="hud-overlay" id="hudOverlay">
         <button id="startButton" class="start-button" type="button">Spiel starten</button>
+        <div class="touch-controls" id="touchControls">
+          <button id="pauseButton" class="hud-btn" type="button">⏸</button>
+          <button id="shopButton" class="hud-btn" type="button">Shop</button>
+          <button id="settingsButton" class="hud-btn" type="button">⚙</button>
+          <button id="prevItemButton" class="hud-btn" type="button">◀</button>
+          <button id="nextItemButton" class="hud-btn" type="button">▶</button>
+          <button id="buyButton" class="hud-btn" type="button">Kaufen</button>
+          <button id="resumeButton" class="hud-btn" type="button">Weiter</button>
+        </div>
+        <div class="settings-panel is-hidden" id="settingsPanel">
+          <h3>Touch-Einstellungen</h3>
+          <div class="settings-grid">
+            <button id="toggleSfxButton" class="hud-btn" type="button">SFX</button>
+            <button id="toggleMusicButton" class="hud-btn" type="button">Musik</button>
+            <button id="difficultyButton" class="hud-btn" type="button">Difficulty</button>
+            <button id="graphicsButton" class="hud-btn" type="button">Grafik</button>
+            <button id="touchModeButton" class="hud-btn" type="button">Touch</button>
+            <button id="bgButton" class="hud-btn" type="button">Hintergrund</button>
+            <button id="volDownButton" class="hud-btn" type="button">Vol -</button>
+            <button id="volUpButton" class="hud-btn" type="button">Vol +</button>
+          </div>
+        </div>
       </div>
     </div>
     <script>
-      window.__APP_VERSION__ = 'v4';
+      window.__APP_VERSION__ = 'v5';
       try {
         localStorage.removeItem('flappy-evolution-state');
         localStorage.removeItem('flappy-evolution-state-v3');
+        localStorage.removeItem('flappy-evolution-state-v4');
       } catch {}
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
       }
     </script>
-    <script type="module" src="src/main.js?v=4"></script>
+    <script type="module" src="src/main.js?v=5"></script>
   </body>
 </html>
